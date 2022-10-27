@@ -16,7 +16,6 @@ public class GeoServiceImplTest {
     private GeoServiceImpl geoService;
     private static final String MOSCOW_IP = "172.0.32.11";
     private static final String NEW_YORK_IP = "96.44.183.149";
-    private static final String LOCALHOST = "127.0.0.1";
 
     @BeforeEach
     void setUp() {
@@ -26,7 +25,10 @@ public class GeoServiceImplTest {
     @ParameterizedTest
     @MethodSource("getArguments")
     void geoTestWith_Ip(String ip, Location location) {
+        Assertions.assertEquals(location.getCountry(), geoService.byIp(ip).getCountry());
         Assertions.assertEquals(location.getCity(), geoService.byIp(ip).getCity());
+        Assertions.assertEquals(location.getStreet(), geoService.byIp(ip).getStreet());
+        Assertions.assertEquals(location.getBuilding(), geoService.byIp(ip).getBuilding());
     }
 
     private static Stream<Arguments> getArguments() {
